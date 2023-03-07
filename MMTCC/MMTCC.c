@@ -4,7 +4,7 @@
 #include <memory.h>
 #include <string.h>
 
-void init()
+void reset()
 {
 	memset(g_pszUserBuf, 0x00, 16 * sizeof(char));
 	scanf_s("%s", g_pszUserBuf);
@@ -17,7 +17,7 @@ int main()
 	while (1)
 	{
 		printf(">>>");
-		init();
+		reset();
 		if (strcmp(g_pszUserBuf, "exit") == 0)
 		{
 			break;
