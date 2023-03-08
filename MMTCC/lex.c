@@ -61,6 +61,7 @@ int expr()
 {
 	int val1 = 0, val2 = 0;
 	Token token = { 0 };
+	dyncstring_init(&token.value, DEFAULT_BUFFER_SIZE);
 
 	if (get_next_token(&token) && token.type == CINT)
 	{
@@ -69,6 +70,7 @@ int expr()
 	else
 	{
 		printf("首个操作数必须是整数\n");
+		dyncstring_free(&token.value);
 		return -1;
 	}
 
@@ -80,6 +82,7 @@ int expr()
 	else
 	{
 		printf("第二个字符必须是操作符， 当前只支持+/-\n");
+		dyncstring_free(&token.value);
 		return -1;
 	}
 
@@ -90,6 +93,7 @@ int expr()
 	else
 	{
 		printf("操作符后需要跟一个整数\n");
+		dyncstring_free(&token.value);
 		return -1;
 	}
 
@@ -110,6 +114,8 @@ int expr()
 		printf("未知的操作!\n");
 		break;
 	}
+
+	dyncstring_free(&token.value);
 }
 
 void skip_whitespace()
