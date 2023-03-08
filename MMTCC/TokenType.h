@@ -3,5 +3,6 @@ typedef enum e_TokenType
 {
 	CINT = 0,
 	PLUS,
-	MINUS
+	MINUS,
+	END_OF_FILE
 }ETokenType;
