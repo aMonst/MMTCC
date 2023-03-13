@@ -57,65 +57,92 @@ bool get_next_token(LPTOKEN pToken)
 	return true;
 }
 
-int expr()
+int get_term(bool *pRet)
 {
-	int val1 = 0, val2 = 0;
 	Token token = { 0 };
 	dyncstring_init(&token.value, DEFAULT_BUFFER_SIZE);
-
+	int value = 0;
 	if (get_next_token(&token) && token.type == CINT)
 	{
-		val1 = atoi(token.value.pszBuf);
+		value = atoi(token.value.pszBuf);
+		if (pRet)
+			*pRet = true;
 	}
 	else
 	{
-		printf("首个操作数必须是整数\n");
-		dyncstring_free(&token.value);
-		return -1;
+		if (pRet)
+			*pRet = false;
 	}
+	dyncstring_free(&token.value);
 
+	return value;
+}
+
+ETokenType get_oper(bool* pRet)
+{
+	Token token = { 0 };
+	dyncstring_init(&token.value, DEFAULT_BUFFER_SIZE);
 	int oper = 0;
 	if (get_next_token(&token) && (token.type == PLUS || token.type == MINUS))
 	{
 		oper = token.type;
+		if (pRet)
+			*pRet = true;
+	}
+	else if (token.type == END_OF_FILE)
+	{
+		oper = END_OF_FILE;
+		if (pRet)
+			*pRet = true;
 	}
 	else
 	{
-		printf("第二个字符必须是操作符， 当前只支持+/-\n");
-		dyncstring_free(&token.value);
-		return -1;
-	}
-
-	if (get_next_token(&token) && token.type == CINT)
-	{
-		val2 = atoi(token.value.pszBuf);
-	}
-	else
-	{
-		printf("操作符后需要跟一个整数\n");
-		dyncstring_free(&token.value);
-		return -1;
-	}
-
-
-	switch (oper)
-	{
-	case PLUS:
-		{
-			printf("%d+%d=%d\n", val1, val2, val1 + val2);
-		}
-		break;
-	case MINUS:
-		{
-			printf("%d-%d=%d\n", val1, val2, val1 - val2);
-		}
-		break;
-	default:
-		printf("未知的操作!\n");
-		break;
+		oper = -1;
+		if (pRet)
+			*pRet = false;
 	}
 
 	dyncstring_free(&token.value);
+	return oper;
+}
+
+int expr()
+{
+	bool bRet = false;
+	int result = get_term(&bRet);
+	int bBreak = false;
+	do
+	{
+		ETokenType oper = get_oper(&bRet);
+		switch (oper)
+		{
+			case PLUS:
+			{
+				int num = get_term(&bRet);
+				if(bRet)
+					result += num;
+			}
+			break;
+		case MINUS:
+			{
+				int num = get_term(&bRet);
+				if(bRet)
+					result -= num;
+			}
+			break;
+		case END_OF_FILE:
+			printf("%d\n", result);
+			bBreak = true;
+			break;
+		default:
+			bRet = false;
+			break;
+		}
+	} while (bRet && !bBreak);
+	if (!bRet)
+	{
+		printf("Syntax Error!\n");
+	}
 }
 
 void skip_whitespace()

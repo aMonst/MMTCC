@@ -16,5 +16,7 @@ char get_next_char();
 bool get_next_token(LPTOKEN pToken);
 void skip_whitespace();
 void parser_number(LPDyncString dyncstr);
+int get_term(bool *pRet);
+ETokenType get_oper(bool* pRet);
 
 int expr();
