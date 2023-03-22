@@ -127,11 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="interpreter.c" />
     <ClCompile Include="lex.c" />
     <ClCompile Include="MMTCC.c" />
     <ClCompile Include="Tools.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="interpreter.h" />
     <ClInclude Include="lex.h" />
     <ClInclude Include="TokenType.h" />
     <ClInclude Include="Tools.h" />

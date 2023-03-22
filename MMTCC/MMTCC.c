@@ -1,5 +1,5 @@
 ﻿#include <stdio.h>
-#include "lex.h"
+#include "interpreter.h"
 #include <malloc.h>
 #include <memory.h>
 #include <string.h>

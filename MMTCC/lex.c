@@ -41,6 +41,16 @@ bool get_next_token(LPTOKEN pToken)
 		pToken->type = MINUS;
 		dyncstring_catch(&pToken->value, '-');
 	}
+	else if (c == '*')
+	{
+		pToken->type = DIV;
+		dyncstring_catch(&pToken->value, '*');
+	}
+	else if (c == '/')
+	{
+		pToken->type = MUL;
+		dyncstring_catch(&pToken->value, '/');
+	}
 	else if(is_space(c))
 	{
 		skip_whitespace();
@@ -57,7 +67,7 @@ bool get_next_token(LPTOKEN pToken)
 	return true;
 }
 
-int get_term(bool *pRet)
+int get_factor(bool *pRet)
 {
 	Token token = { 0 };
 	dyncstring_init(&token.value, DEFAULT_BUFFER_SIZE);
@@ -83,7 +93,7 @@ ETokenType get_oper(bool* pRet)
 	Token token = { 0 };
 	dyncstring_init(&token.value, DEFAULT_BUFFER_SIZE);
 	int oper = 0;
-	if (get_next_token(&token) && (token.type == PLUS || token.type == MINUS))
+	if (get_next_token(&token) && (token.type == PLUS || token.type == MINUS || token.type == DIV || token.type == MUL))
 	{
 		oper = token.type;
 		if (pRet)
@@ -106,44 +116,6 @@ ETokenType get_oper(bool* pRet)
 	return oper;
 }
 
-int expr()
-{
-	bool bRet = false;
-	int result = get_term(&bRet);
-	int bBreak = false;
-	do
-	{
-		ETokenType oper = get_oper(&bRet);
-		switch (oper)
-		{
-			case PLUS:
-			{
-				int num = get_term(&bRet);
-				if(bRet)
-					result += num;
-			}
-			break;
-		case MINUS:
-			{
-				int num = get_term(&bRet);
-				if(bRet)
-					result -= num;
-			}
-			break;
-		case END_OF_FILE:
-			printf("%d\n", result);
-			bBreak = true;
-			break;
-		default:
-			bRet = false;
-			break;
-		}
-	} while (bRet && !bBreak);
-	if (!bRet)
-	{
-		printf("Syntax Error!\n");
-	}
-}
 
 void skip_whitespace()
 {

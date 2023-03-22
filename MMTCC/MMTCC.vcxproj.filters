@@ -24,6 +24,9 @@
     <ClCompile Include="Tools.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="interpreter.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TokenType.h">
@@ -33,6 +36,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Tools.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="interpreter.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
