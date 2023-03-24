@@ -6,5 +6,7 @@ typedef enum e_TokenType
 	MINUS, //¼õ·¨
 	DIV, //³Ë·¨
 	MUL, //³ý·¨
+	LPAREN, //×óÀ¨ºÅ
+	RPAREN, //ÓÒÀ¨ºÅ
 	END_OF_FILE // ×Ö·û´®Ä©Î²½áÊø·ûºÅ
 }ETokenType;

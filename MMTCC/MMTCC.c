@@ -23,7 +23,17 @@ int main()
 		{
 			break;
 		}
-		expr();
+		bool bValid = false;
+		int result = expr(&bValid);
+		if (bValid)
+		{
+			printf("%s=%d\n", g_pszUserBuf, result);
+		}
+		else
+		{
+			printf(">>>Syntax Error!\n");
+		}
+
 	}
 
 	free(g_pszUserBuf);

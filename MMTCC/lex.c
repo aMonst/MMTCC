@@ -31,39 +31,40 @@ bool get_next_token(LPTOKEN pToken)
 		pToken->type = CINT;
 		parser_number(&pToken->value);
 	}
-	else if (c == '+')
-	{
-		pToken->type = PLUS;
-		dyncstring_catch(&pToken->value, '+');
-	}
-	else if (c == '-')
-	{
-		pToken->type = MINUS;
-		dyncstring_catch(&pToken->value, '-');
-	}
-	else if (c == '*')
-	{
-		pToken->type = DIV;
-		dyncstring_catch(&pToken->value, '*');
-	}
-	else if (c == '/')
-	{
-		pToken->type = MUL;
-		dyncstring_catch(&pToken->value, '/');
-	}
 	else if(is_space(c))
 	{
 		skip_whitespace();
 		return get_next_token(pToken);
 	}
-	else if ('\0' == c)
-	{
-		pToken->type = END_OF_FILE;
-	}
 	else
 	{
-		return false;
+		switch (c) {
+		case '+':
+			pToken->type = PLUS;
+			break;
+		case '-':
+			pToken->type = MINUS;
+			break;
+		case '*':
+			pToken->type = DIV;
+			break;
+		case '/':
+			pToken->type = MUL;
+			break;
+		case '(':
+			pToken->type = LPAREN;
+			break;
+		case ')':
+			pToken->type = RPAREN;
+			break;
+		case '\0':
+			pToken->type = END_OF_FILE;
+			break;
+		default:
+			return false;
+		}
 	}
+
 	return true;
 }
 
@@ -72,11 +73,29 @@ int get_factor(bool *pRet)
 	Token token = { 0 };
 	dyncstring_init(&token.value, DEFAULT_BUFFER_SIZE);
 	int value = 0;
-	if (get_next_token(&token) && token.type == CINT)
+	if (get_next_token(&token))
 	{
-		value = atoi(token.value.pszBuf);
-		if (pRet)
-			*pRet = true;
+		if (token.type == CINT)
+		{
+			value = atoi(token.value.pszBuf);
+			if (pRet)
+				*pRet = true;
+		}
+		else
+		{
+			if (token.type == LPAREN)
+			{
+				bool bValid = true;
+				value = expr(&bValid);
+				if (!bValid)
+					*pRet = false;
+
+				if (get_next_token(&token) && token.type == RPAREN)
+					*pRet = true;
+				else
+					*pRet = false;
+			}
+		}
 	}
 	else
 	{
@@ -93,7 +112,7 @@ ETokenType get_oper(bool* pRet)
 	Token token = { 0 };
 	dyncstring_init(&token.value, DEFAULT_BUFFER_SIZE);
 	int oper = 0;
-	if (get_next_token(&token) && (token.type == PLUS || token.type == MINUS || token.type == DIV || token.type == MUL))
+	if (get_next_token(&token) && (token.type == PLUS || token.type == MINUS || token.type == DIV || token.type == MUL || token.type == LPAREN || token.type == RPAREN))
 	{
 		oper = token.type;
 		if (pRet)

@@ -17,5 +17,6 @@ bool get_next_token(LPTOKEN pToken);
 void skip_whitespace();
 void parser_number(LPDyncString dyncstr);
 int get_factor(bool *pRet);
+int expr(bool* pValid);
 ETokenType get_oper(bool* pRet);
 

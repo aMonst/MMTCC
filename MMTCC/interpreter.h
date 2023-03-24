@@ -1,4 +1,4 @@
 #pragma once
 #include "lex.h"
-int expr();
+int expr(bool *pValid);
 int get_term(bool* pValid);

@@ -1,8 +1,15 @@
 #include "interpreter.h"
 #include <stdio.h>
 
-int expr()
+
+/*
+* expr::=term{(PLUS|MINUS)term}
+* term::=factor{(DIV|MUL)factor}
+* factor::=NUM|{(LPAREN)expr(RPAREN)}
+*/
+int expr(bool *pValid)
 {
+	*pValid = true;
 	bool bRet = false;
 	int result = get_term(&bRet);
 	int bEOF = false;
@@ -25,8 +32,11 @@ int expr()
 					result -= num;
 			}
 			break;
+		case RPAREN:
+			g_pPosition--;
+			bEOF = true;
+			break;
 		case END_OF_FILE:
-			printf("%d\n", result);
 			bEOF = true;
 			break;
 		default:
@@ -36,10 +46,10 @@ int expr()
 	} while (bRet && !bEOF);
 	if (!bRet)
 	{
-		printf("Syntax Error!\n");
+		*pValid = false;
 	}
 
-	return 0;
+	return result;
 }
 
 int get_term(bool* pValid)
@@ -72,6 +82,7 @@ int get_term(bool* pValid)
 				bEOF = true;
 			}
 			break;
+		case RPAREN:
 		case END_OF_FILE:
 			{
 				g_pPosition--;
