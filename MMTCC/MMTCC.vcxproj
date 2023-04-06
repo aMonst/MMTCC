@@ -130,12 +130,13 @@
     <ClCompile Include="interpreter.c" />
     <ClCompile Include="lex.c" />
     <ClCompile Include="MMTCC.c" />
+    <ClCompile Include="Token.c" />
     <ClCompile Include="Tools.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="interpreter.h" />
     <ClInclude Include="lex.h" />
-    <ClInclude Include="TokenType.h" />
+    <ClInclude Include="Token.h" />
     <ClInclude Include="Tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

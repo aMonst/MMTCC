@@ -10,44 +10,30 @@
 int expr(bool *pValid)
 {
 	*pValid = true;
-	bool bRet = false;
-	int result = get_term(&bRet);
+	int result = get_term(pValid);
 	int bEOF = false;
 	do
 	{
-		ETokenType oper = get_oper(&bRet);
-		switch (oper)
+		switch (g_currentToken.type)
 		{
 			case PLUS:
 			{
-				int num = get_term(&bRet);
-				if(bRet)
+				*pValid = eat(&g_currentToken, PLUS);
+				int num = get_term(pValid);
+				if(*pValid)
 					result += num;
 			}
 			break;
 		case MINUS:
 			{
-				int num = get_term(&bRet);
-				if(bRet)
+				*pValid = eat(&g_currentToken, MINUS);
+				int num = get_term(pValid);
+				if(*pValid)
 					result -= num;
 			}
 			break;
-		case RPAREN:
-			g_pPosition--;
-			bEOF = true;
-			break;
-		case END_OF_FILE:
-			bEOF = true;
-			break;
-		default:
-			bRet = false;
-			break;
 		}
-	} while (bRet && !bEOF);
-	if (!bRet)
-	{
-		*pValid = false;
-	}
+	} while (g_currentToken.type == PLUS || g_currentToken.type == MINUS);
 
 	return result;
 }
@@ -58,11 +44,11 @@ int get_term(bool* pValid)
 	int bEOF = false;
 	do
 	{
-		ETokenType oper = get_oper(pValid);
-		switch (oper)
+		switch (g_currentToken.type)
 		{
 		case DIV:
 			{
+				*pValid = eat(&g_currentToken, DIV);
 				int num = get_factor(pValid);
 				if (*pValid)
 					result *= num;
@@ -70,26 +56,14 @@ int get_term(bool* pValid)
 			break;
 		case MUL:
 			{
+				*pValid = eat(&g_currentToken, MUL);
 				int num = get_factor(pValid);
 				if (*pValid)
 					result /= num;
 			}
 			break;
-		case PLUS:
-		case MINUS:
-			{
-				g_pPosition--;
-				bEOF = true;
-			}
-			break;
-		case RPAREN:
-		case END_OF_FILE:
-			{
-				g_pPosition--;
-				bEOF = true;
-			}
 		}
-	} while (pValid && !bEOF);
+	} while (g_currentToken.type == DIV || g_currentToken.type == MUL);
 	
 	return result;
 }

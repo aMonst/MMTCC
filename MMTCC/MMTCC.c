@@ -9,7 +9,9 @@ void reset()
 {
 	memset(g_pszUserBuf, 0x00, MAX_INPUT_BUFFER * sizeof(char));
 	gets_s(g_pszUserBuf, MAX_INPUT_BUFFER * sizeof(char));
-	g_pPosition = g_pszUserBuf;
+	g_nPosition = 0;
+	g_currentChar = g_pszUserBuf[g_nPosition];
+	get_next_token();
 }
 
 int main()

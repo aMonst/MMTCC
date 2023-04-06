@@ -1,0 +1,30 @@
+#pragma once
+#include "Tools.h"
+#include <stdbool.h>
+
+typedef enum e_TokenType
+{
+	CINT = 0, //ÕûÊý
+	PLUS, //¼Ó·¨
+	MINUS, //¼õ·¨
+	DIV, //³Ë·¨
+	MUL, //³ý·¨
+	LPAREN, //×óÀ¨ºÅ
+	RPAREN, //ÓÒÀ¨ºÅ
+	END_OF_FILE // ×Ö·û´®Ä©Î²½áÊø·ûºÅ
+}ETokenType;
+
+typedef struct Token
+{
+	ETokenType type;
+	DyncString value;
+}Token, * LPTOKEN;
+
+extern Token g_currentToken;
+extern int g_nPosition;
+extern char g_currentChar;
+
+void advance();
+bool get_next_token();
+void skip_whitespace();
+void parser_number(LPDyncString dyncstr);

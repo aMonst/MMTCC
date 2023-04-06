@@ -32,9 +32,12 @@ void dyncstring_free(LPDyncString str)
 	str->capacity = 0;
 	str->nLength = 0;
 	if (str->pszBuf == NULL)
+	{
 		return;
+	}
 
 	free(str->pszBuf);
+	str->pszBuf = NULL;
 }
 
 void dyncstring_resize(LPDyncString str, int newSize)
