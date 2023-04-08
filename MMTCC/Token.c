@@ -6,11 +6,6 @@ char* g_pszUserBuf = NULL;
 int g_nPosition = -1;
 char g_currentChar = '\0';
 
-LPTOKEN get_current_token()
-{
-	return &g_currentToken;
-}
-
 void advance()
 {
 	g_nPosition++;

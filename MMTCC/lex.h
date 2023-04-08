@@ -6,5 +6,3 @@
 
 extern char* g_pszUserBuf;
 bool eat(LPTOKEN pToken, ETokenType eType);
-int get_factor(bool *pRet);
-int expr(bool* pValid);

@@ -67,3 +67,26 @@ int get_term(bool* pValid)
 	
 	return result;
 }
+
+int get_factor(bool* pRet)
+{
+	int value = 0;
+	if (g_currentToken.type == CINT)
+	{
+		value = atoi(g_currentToken.value.pszBuf);
+		*pRet = eat(&g_currentToken, CINT);
+	}
+	else
+	{
+		if (g_currentToken.type == LPAREN)
+		{
+			bool bValid = true;
+			bValid = eat(&g_currentToken, LPAREN);
+			value = expr(&bValid);
+			bValid = eat(&g_currentToken, RPAREN);
+			*pRet = bValid;
+		}
+	}
+
+	return value;
+}
