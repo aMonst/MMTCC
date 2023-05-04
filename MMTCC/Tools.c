@@ -87,3 +87,50 @@ bool is_space(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\r' || c == '\n');
 }
+
+extern void insert_lNode(AST* pRoot, AST* pNode)
+{
+	if (pRoot != NULL)
+	{
+		pRoot->l_node = pNode;
+	}
+}
+
+extern void insert_rNode(AST* pRoot, AST* pNode)
+{
+	if (pRoot != NULL)
+	{
+		pRoot->r_node = pNode;
+	}
+}
+
+extern AST* get_lNode(AST* pRoot)
+{
+	if (pRoot != NULL)
+	{
+		return pRoot->l_node;
+	}
+
+	return NULL;
+}
+
+extern AST* get_rNode(AST* pRoot)
+{
+	if (pRoot != NULL)
+	{
+		return pRoot->r_node;
+	}
+
+	return NULL;
+}
+
+extern free_ast(AST* pRoot)
+{
+	if (pRoot != NULL)
+	{
+		free_ast(pRoot->l_node);
+		free_ast(pRoot->r_node);
+		free(pRoot);
+		pRoot = NULL;
+	}
+}

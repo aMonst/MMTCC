@@ -30,6 +30,9 @@
     <ClCompile Include="Token.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="AST.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Token.h">
@@ -42,6 +45,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="interpreter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AST.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,3 +28,18 @@ bool is_digit(char c);
 bool is_space(char c);
 
 void error(char* lpszFmt, ...);
+
+// 定义抽象语法树的操作
+typedef struct AST
+{
+	struct AST* l_node;
+	struct AST* r_node;
+}AST;
+
+extern free_ast(AST* pRoot);
+
+#ifndef CONTAINING_RECORD
+#define CONTAINING_RECORD(address, type, field) ((type *)( \
+                                                  (char*)(address) - \
+                                                  (char*)(&((type *)0)->field)))
+#endif

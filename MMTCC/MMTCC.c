@@ -26,10 +26,12 @@ int main()
 			break;
 		}
 		bool bValid = false;
-		int result = expr(&bValid);
+		AST* pRoot = expr(&bValid);
 		if (bValid)
 		{
-			printf("%s=%d\n", g_pszUserBuf, result);
+			int result = calc(pRoot, &bValid);
+			if(bValid)
+				printf("%s=%d\n", g_pszUserBuf, result);
 		}
 		else
 		{
